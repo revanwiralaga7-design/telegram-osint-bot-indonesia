@@ -487,7 +487,7 @@ class OSINTDatabase:
 
 # ==================== FORMATTERS ====================
 def format_citizen(data: Dict) -> str:
-    lines = ["���� <b>DATA KEPENDUDUKAN</b>"]
+    lines = ["🆔 <b>DATA KEPENDUDUKAN</b>"]
     fields = [
         ("NIK", "nik"),
         ("Nama", "nama"),
@@ -510,10 +510,10 @@ def format_citizen(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_phone(data: Dict) -> str:
-    return f"���� <b>Nomor:</b> <code>{data.get('phone','-')}</code> | <b>Provider:</b> {data.get('provider','-')} | <b>Date:</b> {data.get('date','-')} | <b>Source:</b> {data.get('source','-')}"
+    return f"📱 <b>Nomor:</b> <code>{data.get('phone','-')}</code> | <b>Provider:</b> {data.get('provider','-')} | <b>Date:</b> {data.get('date','-')} | <b>Source:</b> {data.get('source','-')}"
 
 def format_vehicle(data: Dict) -> str:
-    lines = ["���� <b>KENDARAAN</b>"]
+    lines = ["🚘 <b>KENDARAAN</b>"]
     fields = [
         ("Plat", "plate_number"),
         ("BPKB", "bpkb"),
@@ -535,23 +535,23 @@ def format_vehicle(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_sim(data: Dict) -> str:
-    return f"���� <b>SIM:</b> Pencarian: <code>{data.get('pencarian','-')}</code> | Peserta: {data.get('no_peserta','-')} | Instansi: {data.get('instansi','-')} | Tanggal: {data.get('tanggal','-')} | Source: {data.get('source','-')}"
+    return f"🆔 <b>SIM:</b> Pencarian: <code>{data.get('pencarian','-')}</code> | Peserta: {data.get('no_peserta','-')} | Instansi: {data.get('instansi','-')} | Tanggal: {data.get('tanggal','-')} | Source: {data.get('source','-')}"
 
 def format_gov_letter(data: Dict) -> str:
-    return f"���� <b>Surat:</b> {data.get('title','-')} | Dari: {data.get('pengirim','-')} | NIP: {data.get('nip','-')} | No: {data.get('no_surat','-')} | Tgl: {data.get('tgl_surat','-')}"
+    return f"📄 <b>Surat:</b> {data.get('title','-')} | Dari: {data.get('pengirim','-')} | NIP: {data.get('nip','-')} | No: {data.get('no_surat','-')} | Tgl: {data.get('tgl_surat','-')}"
 
 def format_ecommerce(key: str, data: Dict) -> str:
     icons = {
-        "bukalapak": "�������",
-        "shopee": "����",
-        "indo_store": "����",
-        "bsi_bank": "����",
-        "shopping_indo": "�������",
-        "sg_shopping": "�������",
-        "indihome": "����",
-        "pertamina": "���",
+        "bukalapak": "🛒",
+        "shopee": "🛍️",
+        "indo_store": "🏪",
+        "bsi_bank": "🏦",
+        "shopping_indo": "🛒",
+        "sg_shopping": "🛒",
+        "indihome": "🌐",
+        "pertamina": "⛽",
     }
-    icon = icons.get(key, "����")
+    icon = icons.get(key, "📦")
     lines = [f"{icon} <b>{key.upper()}</b>"]
     for k, v in data.items():
         if v and k not in ("id", "source", "password_hash"):
@@ -559,7 +559,7 @@ def format_ecommerce(key: str, data: Dict) -> str:
     return "\n".join(lines)
 
 def format_ms_contact(data: Dict) -> str:
-    lines = ["���� <b>MICROSOFT CONTACT</b>"]
+    lines = ["👤 <b>MICROSOFT CONTACT</b>"]
     fields = [
         ("Email", "email"),
         ("Name", "name"),
@@ -579,7 +579,7 @@ def format_ms_contact(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_ms_lead(data: Dict) -> str:
-    lines = ["���� <b>MICROSOFT LEAD</b>"]
+    lines = ["🎯 <b>MICROSOFT LEAD</b>"]
     fields = [
         ("Email", "email"),
         ("Name", "name"),
@@ -599,7 +599,7 @@ def format_ms_lead(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_ms_user(data: Dict) -> str:
-    lines = ["���� <b>MICROSOFT USER</b>"]
+    lines = ["👤 <b>MICROSOFT USER</b>"]
     fields = [
         ("Email", "email"),
         ("Name", "name"),
@@ -617,7 +617,7 @@ def format_ms_user(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_ms_incident(data: Dict) -> str:
-    lines = ["���� <b>MICROSOFT INCIDENT</b>"]
+    lines = ["🚨 <b>MICROSOFT INCIDENT</b>"]
     fields = [
         ("Title", "title"),
         ("Description", "description"),
@@ -642,7 +642,7 @@ def format_ms_incident(data: Dict) -> str:
 def format_visa_card(data: Dict) -> str:
     raw = data.get('raw_data', '')
     parts = raw.split('|') if raw else []
-    lines = ["���� <b>VISA CARD</b>"]
+    lines = ["💳 <b>VISA CARD</b>"]
     if len(parts) >= 4:
         lines.append(f"  Card: <code>{parts[0]}</code>")
         lines.append(f"  Exp: {parts[1]}/{parts[2]}")
@@ -651,7 +651,7 @@ def format_visa_card(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_police(data: Dict) -> str:
-    lines = ["���� <b>POLICE DATA</b>"]
+    lines = ["👮 <b>POLICE DATA</b>"]
     fields = [
         ("Pangkat", "pangkat"),
         ("Nama", "nama"),
@@ -667,7 +667,7 @@ def format_police(data: Dict) -> str:
     return "\n".join(lines)
 
 def format_member(data: Dict) -> str:
-    lines = ["���� <b>DATA MEMBER/PELAJAR</b>"]
+    lines = ["🎓 <b>DATA MEMBER/PELAJAR</b>"]
     fields = [
         ("Nama", "nama_lengkap"),
         ("Tempat Lahir", "tempat_lahir"),
@@ -688,28 +688,28 @@ def format_member(data: Dict) -> str:
 
 def get_main_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("���� Cari Lagi", callback_data="search_again")],
-        [InlineKeyboardButton("���� Stats Database", callback_data="db_stats"),
-         InlineKeyboardButton("��� Bantuan", callback_data="help")],
-        [InlineKeyboardButton("������� Hapus Riwayat", callback_data="clear_history")],
+        [InlineKeyboardButton("🔍 Cari Lagi", callback_data="search_again")],
+        [InlineKeyboardButton("📊 Stats Database", callback_data="db_stats"),
+         InlineKeyboardButton("❓ Bantuan", callback_data="help")],
+        [InlineKeyboardButton("🗑️ Hapus Riwayat", callback_data="clear_history")],
     ])
 
 def get_result_keyboard(search_type: str, query: str) -> InlineKeyboardMarkup:
     buttons = []
     
     if search_type == "phone":
-        buttons.append([InlineKeyboardButton("���� Cari NIK Terkait", callback_data=f"nik_search_{query}")])
+        buttons.append([InlineKeyboardButton("🆔 Cari NIK Terkait", callback_data=f"nik_search_{query}")])
     elif search_type == "nik":
-        buttons.append([InlineKeyboardButton("���� Cari Nomor Lain", callback_data=f"phone_by_nik_{query}")])
-        buttons.append([InlineKeyboardButton("���� Cari Kendaraan", callback_data=f"vehicle_by_nik_{query}")])
+        buttons.append([InlineKeyboardButton("📱 Cari Nomor Lain", callback_data=f"phone_by_nik_{query}")])
+        buttons.append([InlineKeyboardButton("🚘 Cari Kendaraan", callback_data=f"vehicle_by_nik_{query}")])
     elif search_type == "name":
-        buttons.append([InlineKeyboardButton("���� Cari Lebih Detail", callback_data=f"name_detail_{query}")])
+        buttons.append([InlineKeyboardButton("🔎 Cari Lebih Detail", callback_data=f"name_detail_{query}")])
     elif search_type == "plate":
-        buttons.append([InlineKeyboardButton("���� Cari Pemilik (NIK)", callback_data=f"owner_by_plate_{query}")])
+        buttons.append([InlineKeyboardButton("👤 Cari Pemilik (NIK)", callback_data=f"owner_by_plate_{query}")])
     elif search_type == "email":
-        buttons.append([InlineKeyboardButton("���� Cari di Semua Tabel", callback_data=f"email_deep_{query}")])
+        buttons.append([InlineKeyboardButton("🗂️ Cari di Semua Tabel", callback_data=f"email_deep_{query}")])
     
-    buttons.append([InlineKeyboardButton("���� Kembali ke Menu", callback_data="main_menu")])
+    buttons.append([InlineKeyboardButton("⬅️ Kembali ke Menu", callback_data="main_menu")])
     return InlineKeyboardMarkup(buttons)
 
 
@@ -720,22 +720,22 @@ user_states = {}  # user_id -> last query info
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     welcome = (
-        f"���� Halo {user.first_name}!\n\n"
-        "���� <b>OSINT Indonesia Bot</b>\n"
+        f"👋 Halo {user.first_name}!\n\n"
+        "🤖 <b>OSINT Indonesia Bot</b>\n"
         "Database: 2.2GB | 18+ tabel | 3.5M+ records\n\n"
         "<b>Cara pakai:</b> Kirim saja:\n"
-        "• ��� <b>Nomor HP</b> (08xx, 628xx, +628xx)\n"
-        "• ��� <b>NIK</b> (16 digit)\n"
-        "• ��� <b>Nama</b> (contoh: Budi Santoso)\n"
-        "• ��� <b>Plat Nomor</b> (contoh: B1234ABC)\n"
-        "• ��� <b>Email</b> (contoh: user@gmail.com)\n\n"
+        "• 📱 <b>Nomor HP</b> (08xx, 628xx, +628xx)\n"
+        "• 🆔 <b>NIK</b> (16 digit)\n"
+        "• 👤 <b>Nama</b> (contoh: Budi Santoso)\n"
+        "• 🚘 <b>Plat Nomor</b> (contoh: B1234ABC)\n"
+        "• 📧 <b>Email</b> (contoh: user@gmail.com)\n\n"
         "Bot akan deteksi otomatis & cari di semua tabel relevan."
     )
     await update.message.reply_html(welcome, reply_markup=get_main_keyboard())
 
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     help_text = (
-        "���� <b>BANTUAN OSINT BOT</b>\n\n"
+        "❓ <b>BANTUAN OSINT BOT</b>\n\n"
         "<b>Tipe Pencarian Otomatis:</b>\n"
         "• <code>08123456789</code> → Cari di phone_registry (2M records)\n"
         "• <code>3175070604891001</code> → Cari NIK di semua tabel\n"
@@ -743,13 +743,13 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• <code>B1234ABC</code> → Cari plat di vehicle_data (600K records)\n"
         "• <code>user@gmail.com</code> → Cari email di e-commerce & services\n\n"
         "<b>Tabel Database:</b>\n"
-        "���� phone_registry (2M) | ��� citizen_data (2K)\n"
-        "���� sim_data (500K) | ��� vehicle_data (600K)\n"
-        "���� government_letters (500K) | ������ bukalapak (500K)\n"
-        "���� shopee (174K) | ��� indo_store (70K)\n"
-        "���� bsi_bank (508) | ��� member_data (148K)\n"
-        "������� shopping_indo (3K) | ������ sg_shopping (103K)\n"
-        "���� indihome (10K) | ��� pertamina\n\n"
+        "📱 phone_registry (2M) | 🆔 citizen_data (2K)\n"
+        "🆔 sim_data (500K) | 🚘 vehicle_data (600K)\n"
+        "📄 government_letters (500K) | 🛒 bukalapak (500K)\n"
+        "🛍️ shopee (174K) | 🏪 indo_store (70K)\n"
+        "🏦 bsi_bank (508) | 🎓 member_data (148K)\n"
+        "🛒 shopping_indo (3K) | 🛒 sg_shopping (103K)\n"
+        "🌐 indihome (10K) | ⛽ pertamina\n\n"
         "<b>Inline Keyboard:</b>\n"
         "Gunakan tombol di bawah hasil pencarian untuk navigasi cepat."
     )
@@ -757,33 +757,33 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def db_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     stats = (
-        "���� <b>STATISTIK DATABASE (12.4M+ Records)</b>\n\n"
-        "�������� <b>INDONESIA:</b>\n"
-        "���� phone_registry: 2,000,006\n"
-        "���� citizen_data: 2,000\n"
-        "���� sim_data: 500,000\n"
-        "���� member_data: 148,200\n"
-        "���� vehicle_data: 599,288\n"
-        "���� government_letters: 507,484\n"
-        "������� bukalapak_data: 507,872\n"
-        "������� shopee_data: 173,917\n"
-        "������� indo_store_data: 69,999\n"
-        "���� bsi_bank_data: 508\n"
-        "������� shopping_indo_data: 3,334\n"
-        "������� sg_shopping_data: 103,501\n"
-        "���� indihome_data: 10,000\n"
-        "��� pertamina_data: 0\n"
-        "������� kpu_data: 0\n"
-        "���� indihome_browse_data: 0\n"
-        "���� visa_card_data: 210,725\n"
-        "���� police_data: 341,798\n\n"
-        "���� <b>MICROSOFT (7.2M+):</b>\n"
-        "���� ms_contacts: 4,490,903\n"
-        "���� ms_leads: 68,995\n"
-        "���� ms_users: 309,630\n"
-        "���� ms_incidents: 2,364,982\n"
-        "���� ms_credentials: 0\n\n"
-        f"���� File: {os.path.getsize(DB_PATH) / (1024**3):.2f} GB"
+        "📊 <b>STATISTIK DATABASE (12.4M+ Records)</b>\n\n"
+        "🇮🇩 <b>INDONESIA:</b>\n"
+        "📱 phone_registry: 2,000,006\n"
+        "🆔 citizen_data: 2,000\n"
+        "🆔 sim_data: 500,000\n"
+        "🎓 member_data: 148,200\n"
+        "🚘 vehicle_data: 599,288\n"
+        "📄 government_letters: 507,484\n"
+        "🛒 bukalapak_data: 507,872\n"
+        "🛍️ shopee_data: 173,917\n"
+        "🏪 indo_store_data: 69,999\n"
+        "🏦 bsi_bank_data: 508\n"
+        "🛒 shopping_indo_data: 3,334\n"
+        "🛒 sg_shopping_data: 103,501\n"
+        "🌐 indihome_data: 10,000\n"
+        "⛽ pertamina_data: 0\n"
+        "🗳️ kpu_data: 0\n"
+        "🌐 indihome_browse_data: 0\n"
+        "💳 visa_card_data: 210,725\n"
+        "👮 police_data: 341,798\n\n"
+        "💻 <b>MICROSOFT (7.2M+):</b>\n"
+        "👤 ms_contacts: 4,490,903\n"
+        "🎯 ms_leads: 68,995\n"
+        "👥 ms_users: 309,630\n"
+        "🚨 ms_incidents: 2,364,982\n"
+        "🔐 ms_credentials: 0\n\n"
+        f"💾 File: {os.path.getsize(DB_PATH) / (1024**3):.2f} GB"
     )
     if update.callback_query:
         await update.callback_query.edit_message_text(stats, parse_mode="HTML", reply_markup=get_main_keyboard())
@@ -802,7 +802,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_states[user_id] = {"last_query": query, "last_type": search_type}
     
     # Send searching message
-    searching_msg = await update.message.reply_html(f"���� <b>Mencari...</b> <code>{query}</code> (tipe: {search_type})")
+    searching_msg = await update.message.reply_html(f"🔍 <b>Mencari...</b> <code>{query}</code> (tipe: {search_type})")
     
     try:
         if search_type == "phone":
@@ -816,12 +816,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         elif search_type == "email":
             results = await search_email(query)
         else:
-            results = "��� Tipe pencarian tidak dikenali."
+            results = "❌ Tipe pencarian tidak dikenali."
         
         await searching_msg.edit_text(results, parse_mode="HTML", reply_markup=get_result_keyboard(search_type, query))
     except Exception as e:
         logger.error(f"Search error: {e}")
-        await searching_msg.edit_text(f"��� Error: {str(e)}", reply_markup=get_main_keyboard())
+        await searching_msg.edit_text(f"❌ Error: {str(e)}", reply_markup=get_main_keyboard())
 
 async def search_phone(phone: str) -> str:
     results = db.search_by_phone(phone)
@@ -871,52 +871,52 @@ async def search_phone(phone: str) -> str:
 async def search_nik(nik: str) -> str:
     result = db.search_by_nik(nik)
     
-    lines = [f"���� <b>HASIL PENCARIAN NIK:</b> <code>{nik}</code>\n"]
+    lines = [f"🔎 <b>HASIL PENCARIAN NIK:</b> <code>{nik}</code>\n"]
     
     if result.get("citizen_data"):
         lines.append(format_citizen(result["citizen_data"]))
         lines.append("")
     
     if result.get("phones"):
-        lines.append(f"���� <b>NOMOR TELEPON ({len(result['phones'])})</b>")
+        lines.append(f"📱 <b>NOMOR TELEPON ({len(result['phones'])})</b>")
         for p in result["phones"][:5]:
             lines.append(f"  {format_phone(p)}")
         lines.append("")
     
     if result.get("vehicles"):
-        lines.append(f"���� <b>KENDARAAN ({len(result['vehicles'])})</b>")
+        lines.append(f"🚘 <b>KENDARAAN ({len(result['vehicles'])})</b>")
         for v in result["vehicles"][:5]:
             lines.append(f"  {format_vehicle(v)}")
         lines.append("")
     
     if result.get("sim_data"):
-        lines.append(f"���� <b>DATA SIM ({len(result['sim_data'])})</b>")
+        lines.append(f"🆔 <b>DATA SIM ({len(result['sim_data'])})</b>")
         for s in result["sim_data"][:3]:
             lines.append(f"  {format_sim(s)}")
         lines.append("")
     
     if result.get("government_letters"):
-        lines.append(f"���� <b>SURAT PEMERINTAH ({len(result['government_letters'])})</b>")
+        lines.append(f"📄 <b>SURAT PEMERINTAH ({len(result['government_letters'])})</b>")
         for g in result["government_letters"][:3]:
             lines.append(f"  {format_gov_letter(g)}")
         lines.append("")
     
     if result.get("member_data"):
-        lines.append(f"���� <b>DATA MEMBER ({len(result['member_data'])})</b>")
+        lines.append(f"🎓 <b>DATA MEMBER ({len(result['member_data'])})</b>")
         for m in result["member_data"][:3]:
             lines.append(f"  {format_member(m)}")
         lines.append("")
     
     if result.get("ecommerce"):
-        lines.append(f"������� <b>DATA E-COMMERCE & LAYANAN</b>")
+        lines.append(f"🛒 <b>DATA E-COMMERCE & LAYANAN</b>")
         for key, items in result["ecommerce"].items():
-            lines.append(f"  ��� {key.upper()}: {len(items)} record")
+            lines.append(f"  🛍️ {key.upper()}: {len(items)} record")
             for item in items[:2]:
                 lines.append(f"     {format_ecommerce(key, item)}")
         lines.append("")
     
     if len(lines) == 1:
-        lines.append("��� Tidak ditemukan data untuk NIK ini.")
+        lines.append("❌ Tidak ditemukan data untuk NIK ini.")
     
     return "\n".join(lines)
 
@@ -929,15 +929,15 @@ async def search_name(name: str) -> str:
         results.update(ms_results)
     
     if not results:
-        return f"��� Tidak ditemukan data untuk nama: <code>{name}</code>"
+        return f"❌ Tidak ditemukan data untuk nama: <code>{name}</code>"
     
-    lines = [f"���� <b>HASIL PENCARIAN NAMA:</b> <code>{name}</code>\n"]
+    lines = [f"🔎 <b>HASIL PENCARIAN NAMA:</b> <code>{name}</code>\n"]
     
     total = sum(len(v) for v in results.values())
-    lines.append(f"���� Total: {total} record dari {len(results)} tabel\n")
+    lines.append(f"📊 Total: {total} record dari {len(results)} tabel\n")
     
     for table, items in results.items():
-        lines.append(f"���� <b>{table.upper()} ({len(items)})</b>")
+        lines.append(f"📂 <b>{table.upper()} ({len(items)})</b>")
         for item in items[:5]:
             if table == "citizen_data":
                 lines.append(f"  {format_citizen(item)}")
@@ -967,9 +967,9 @@ async def search_plate(plate: str) -> str:
     results = db.search_by_plate(plate)
     
     if not results:
-        return f"��� Tidak ditemukan kendaraan dengan plat: <code>{plate}</code>"
+        return f"❌ Tidak ditemukan kendaraan dengan plat: <code>{plate}</code>"
     
-    lines = [f"���� <b>HASIL PENCARIAN PLAT:</b> <code>{plate}</code>", f"���� Ditemukan: {len(results)} record\n"]
+    lines = [f"🔎 <b>HASIL PENCARIAN PLAT:</b> <code>{plate}</code>", f"✅ Ditemukan: {len(results)} record\n"]
     
     for i, r in enumerate(results[:10], 1):
         lines.append(f"{i}. {format_vehicle(r)}")
@@ -984,15 +984,15 @@ async def search_email(email: str) -> str:
     results = db.search_by_email(email)
     
     if not results:
-        return f"��� Tidak ditemukan data untuk email: <code>{email}</code>"
+        return f"❌ Tidak ditemukan data untuk email: <code>{email}</code>"
     
-    lines = [f"���� <b>HASIL PENCARIAN EMAIL:</b> <code>{email}</code>\n"]
+    lines = [f"🔎 <b>HASIL PENCARIAN EMAIL:</b> <code>{email}</code>\n"]
     
     total = sum(len(v) for v in results.values())
-    lines.append(f"���� Total: {total} record dari {len(results)} tabel\n")
+    lines.append(f"📊 Total: {total} record dari {len(results)} tabel\n")
     
     for table, items in results.items():
-        lines.append(f"���� <b>{table.upper()} ({len(items)})</b>")
+        lines.append(f"📂 <b>{table.upper()} ({len(items)})</b>")
         for item in items[:5]:
             lines.append(f"  {format_ecommerce(table, item)}")
         lines.append("")
@@ -1010,8 +1010,8 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if data == "main_menu":
         await query.edit_message_text(
-            "���� <b>MENU UTAMA</b>\n\nKirim query untuk pencarian:\n"
-            "���� Nomor HP | ��� NIK | ��� Nama | ��� Plat | ��� Email",
+            "🏠 <b>MENU UTAMA</b>\n\nKirim query untuk pencarian:\n"
+            "📱 Nomor HP | 🆔 NIK | 👤 Nama | 🚘 Plat | 📧 Email",
             parse_mode="HTML",
             reply_markup=get_main_keyboard()
         )
@@ -1024,12 +1024,12 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     elif data == "clear_history":
         user_states.pop(user_id, None)
-        await query.edit_message_text("������� Riwayat pencarian dibersihkan.", reply_markup=get_main_keyboard())
+        await query.edit_message_text("🗑️ Riwayat pencarian dibersihkan.", reply_markup=get_main_keyboard())
     
     elif data == "search_again":
         await query.edit_message_text(
-            "���� <b>CARI LAGI</b>\n\nKirim query baru:\n"
-            "���� Nomor HP | ��� NIK | ��� Nama | ��� Plat | ��� Email",
+            "🔍 <b>CARI LAGI</b>\n\nKirim query baru:\n"
+            "📱 Nomor HP | 🆔 NIK | 👤 Nama | 🚘 Plat | 📧 Email",
             parse_mode="HTML",
             reply_markup=get_main_keyboard()
         )
@@ -1045,7 +1045,7 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 nik_set.add(r['nik'])
         
         if nik_set:
-            text = f"���� <b>NIK Terkait Nomor {phone}:</b>\n\n"
+            text = f"🆔 <b>NIK Terkait Nomor {phone}:</b>\n\n"
             for nik in list(nik_set)[:10]:
                 text += f"• <code>{nik}</code>\n"
                 # Get name
@@ -1054,58 +1054,58 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     text += f"  → {citizen.get('nama', '-')}\n"
             await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("phone", phone))
         else:
-            await query.edit_message_text("��� Tidak ada NIK terkait.", reply_markup=get_result_keyboard("phone", phone))
+            await query.edit_message_text("❌ Tidak ada NIK terkait.", reply_markup=get_result_keyboard("phone", phone))
     
     elif data.startswith("phone_by_nik_"):
         nik = data.replace("phone_by_nik_", "")
         phones = db.get_phones_by_nik(nik)
         if phones:
-            text = f"���� <b>Nomor Telepon untuk NIK {nik}:</b>\n\n"
+            text = f"📱 <b>Nomor Telepon untuk NIK {nik}:</b>\n\n"
             for p in phones:
                 text += f"• {format_phone(p)}\n"
         else:
-            text = f"��� Tidak ada nomor telepon untuk NIK {nik}"
+            text = f"❌ Tidak ada nomor telepon untuk NIK {nik}"
         await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("nik", nik))
     
     elif data.startswith("vehicle_by_nik_"):
         nik = data.replace("vehicle_by_nik_", "")
         vehicles = db.get_vehicles_by_nik(nik)
         if vehicles:
-            text = f"���� <b>Kendaraan untuk NIK {nik}:</b>\n\n"
+            text = f"🚘 <b>Kendaraan untuk NIK {nik}:</b>\n\n"
             for v in vehicles:
                 text += f"{format_vehicle(v)}\n\n"
         else:
-            text = f"��� Tidak ada kendaraan untuk NIK {nik}"
+            text = f"❌ Tidak ada kendaraan untuk NIK {nik}"
         await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("nik", nik))
     
     elif data.startswith("owner_by_plate_"):
         plate = data.replace("owner_by_plate_", "")
         results = db.search_by_plate(plate)
         if results:
-            text = f"���� <b>Pemilik Plat {plate}:</b>\n\n"
+            text = f"👤 <b>Pemilik Plat {plate}:</b>\n\n"
             for r in results:
                 text += f"• Nama: <code>{r.get('name','-')}</code>\n"
                 text += f"  NIK: <code>{r.get('nik','-')}</code>\n"
                 text += f"  Alamat: {r.get('address','-')}\n\n"
         else:
-            text = f"��� Tidak ditemukan pemilik untuk plat {plate}"
+            text = f"❌ Tidak ditemukan pemilik untuk plat {plate}"
         await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("plate", plate))
     
     elif data.startswith("name_detail_"):
         name = data.replace("name_detail_", "")
         # Just re-search with more results
         results = db.search_by_name(name)
-        text = f"���� <b>Detail Nama: {name}</b>\n\n"
+        text = f"🔎 <b>Detail Nama: {name}</b>\n\n"
         for table, items in results.items():
-            text += f"���� {table.upper()}: {len(items)} record\n"
+            text += f"📂 {table.upper()}: {len(items)} record\n"
         await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("name", name))
     
     elif data.startswith("email_deep_"):
         email = data.replace("email_deep_", "")
         results = db.search_by_email(email)
-        text = f"���� <b>Deep Search Email: {email}</b>\n\n"
+        text = f"📧 <b>Deep Search Email: {email}</b>\n\n"
         for table, items in results.items():
-            text += f"���� {table.upper()}: {len(items)} record\n"
+            text += f"📂 {table.upper()}: {len(items)} record\n"
             for item in items[:3]:
                 text += f"  {format_ecommerce(table, item)}\n"
         await query.edit_message_text(text, parse_mode="HTML", reply_markup=get_result_keyboard("email", email))
@@ -1114,16 +1114,16 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ==================== MAIN ====================
 async def post_init(application: Application):
     await application.bot.set_my_commands([
-        ("start", "���� Memulai bot"),
-        ("help", "���� Bantuan & panduan"),
-        ("stats", "���� Statistik database"),
+        ("start", "🚀 Memulai bot"),
+        ("help", "❓ Bantuan & panduan"),
+        ("stats", "📊 Statistik database"),
     ])
 
 def main():
     validate_token()
-    print("���� Starting OSINT Bot...")
-    print(f"���� Database: {DB_PATH}")
-    print(f"���� Size: {os.path.getsize(DB_PATH) / (1024**3):.2f} GB")
+    print("🚀 Starting OSINT Bot...")
+    print(f"🗄️ Database: {DB_PATH}")
+    print(f"💾 Size: {os.path.getsize(DB_PATH) / (1024**3):.2f} GB")
     
     application = Application.builder().token(BOT_TOKEN).post_init(post_init).build()
     

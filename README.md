@@ -1,8 +1,8 @@
-# ��� Telegram OSINT Bot Indonesia
+# 🤖 Telegram OSINT Bot Indonesia
 
 Bot Telegram untuk pencarian OSINT (Open Source Intelligence) menggunakan database lokal 2.2GB dengan **23 tabel** dan **12.4M+ records**.
 
-## ��� Fitur
+## ✨ Fitur
 
 - **Multi-search otomatis**: Deteksi tipe query (Phone/NIK/Nama/Plat/Email)
 - **Inline Keyboard**: Navigasi cepat dengan tombol interaktif
@@ -12,11 +12,11 @@ Bot Telegram untuk pencarian OSINT (Open Source Intelligence) menggunakan databa
 
 | Input | Contoh | Tabel yang Dicari |
 |-------|--------|-------------------|
-| ��� **Nomor HP** | `08123456789`, `628123456789`, `+628123456789` | phone_registry (2M), citizen_data, **ms_contacts, ms_leads, ms_users** |
-| ��� **NIK** | `3175070604891001` (16 digit) | Semua tabel (citizen, phone, vehicle, SIM, gov letters, e-commerce, member, Microsoft) |
-| ��� **Nama** | `Budi Santoso` | citizen_data, vehicle_data, member_data, gov_letters, shopee, indo_store, bsi_bank, shopping_indo, sg_shopping, pertamina, **ms_contacts, ms_leads, ms_users, ms_incidents** |
-| ��� **Plat Nomor** | `B1234ABC`, `KT5207ZF` | vehicle_data (600K) |
-| ��� **Email** | `user@gmail.com` | bukalapak, indo_store, bsi_bank, shopping_indo, sg_shopping, indihome, pertamina, **ms_contacts, ms_leads, ms_users, ms_incidents** |
+| 📱 **Nomor HP** | `08123456789`, `628123456789`, `+628123456789` | phone_registry (2M), citizen_data, **ms_contacts, ms_leads, ms_users** |
+| 🆔 **NIK** | `3175070604891001` (16 digit) | Semua tabel (citizen, phone, vehicle, SIM, gov letters, e-commerce, member, Microsoft) |
+| 👤 **Nama** | `Budi Santoso` | citizen_data, vehicle_data, member_data, gov_letters, shopee, indo_store, bsi_bank, shopping_indo, sg_shopping, pertamina, **ms_contacts, ms_leads, ms_users, ms_incidents** |
+| 🚘 **Plat Nomor** | `B1234ABC`, `KT5207ZF` | vehicle_data (600K) |
+| 📧 **Email** | `user@gmail.com` | bukalapak, indo_store, bsi_bank, shopping_indo, sg_shopping, indihome, pertamina, **ms_contacts, ms_leads, ms_users, ms_incidents** |
 
 ### Tabel Database (12.4M+ Records)
 
@@ -48,7 +48,7 @@ Bot Telegram untuk pencarian OSINT (Open Source Intelligence) menggunakan databa
 
 **TOTAL: 12,413,142 records**
 
-## ��� Instalasi
+## 🚀 Instalasi
 
 ### 1. Clone & Install Dependencies
 ```bash
@@ -71,7 +71,7 @@ File database `osint_Backup.db` (2.2GB) harus berada di path yang dikonfigurasi 
 python osint_bot.py
 ```
 
-## ��� Cara Pakai
+## 📖 Cara Pakai
 
 1. Start bot: `/start`
 2. Kirim query langsung:
@@ -87,7 +87,7 @@ python osint_bot.py
    - Cari pemilik dari plat
    - Deep search email
 
-## ������ Commands
+## ⌨️ Commands
 
 | Command | Deskripsi |
 |---------|-----------|
@@ -95,13 +95,13 @@ python osint_bot.py
 | `/help` | Bantuan & panduan lengkap |
 | `/stats` | Statistik database |
 
-## ��� Konfigurasi
+## ⚙️ Konfigurasi
 
 Environment variables:
 - `BOT_TOKEN` - Token bot dari @BotFather (wajib)
 - `OSINT_DB_PATH` - Path file database (default: `/home/user/osint_Backup.db`)
 
-## ��� Inline Keyboard Actions
+## 🔘 Inline Keyboard Actions
 
 Setiap hasil pencarian memiliki tombol aksi kontekstual:
 
@@ -111,13 +111,13 @@ Setiap hasil pencarian memiliki tombol aksi kontekstual:
 - **Dari Plat** → Cari Pemilik (NIK)
 - **Dari Email** → Cari di Semua Tabel
 
-## ������ Disclaimer
+## ⚠️ Disclaimer
 
 **Gunakan secara bertanggung jawab dan legal.**
 - Data bersifat sensitif, gunakan hanya untuk keperluan yang sah
 - Patuhi hukum dan regulasi yang berlaku (UU PDP, dll)
 - Bot ini untuk tujuan edukasi & riset keamanan
 
-## ��� License
+## 📄 License
 
 MIT License - gunakan dengan bijak.
