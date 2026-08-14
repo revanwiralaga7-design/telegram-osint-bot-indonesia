@@ -1,0 +1,17 @@
+[Unit]
+Description=Telegram OSINT Bot Indonesia
+After=network.target
+
+[Service]
+Type=simple
+User=user
+WorkingDirectory=/home/user
+EnvironmentFile=/home/user/.env
+ExecStart=/home/user/.local/bin/python /home/user/osint_bot.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
