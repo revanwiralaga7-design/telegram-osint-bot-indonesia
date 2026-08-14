@@ -696,8 +696,22 @@ def get_main_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton("🗑️ Hapus Riwayat", callback_data="clear_history")],
     ])
 
-def get_result_keyboard(search_type: str, query: str) -> InlineKeyboardMarkup:
+def get_result_keyboard(
+    search_type: str,
+    query: str,
+    page: int = 0,
+    total_pages: int = 1,
+) -> InlineKeyboardMarkup:
     buttons = []
+
+    if total_pages > 1:
+        pagination = []
+        if page > 0:
+            pagination.append(InlineKeyboardButton("⬅️ Prev", callback_data=f"result_page_{page - 1}"))
+        pagination.append(InlineKeyboardButton(f"{page + 1}/{total_pages}", callback_data="page_info"))
+        if page < total_pages - 1:
+            pagination.append(InlineKeyboardButton("Next ➡️", callback_data=f"result_page_{page + 1}"))
+        buttons.append(pagination)
     
     if search_type == "phone":
         buttons.append([InlineKeyboardButton("🆔 Cari NIK Terkait", callback_data=f"nik_search_{query}")])
@@ -784,22 +798,32 @@ def split_html_message(text: str, limit: int = TELEGRAM_SAFE_MESSAGE_LIMIT) -> L
     return [chunk for chunk in chunks if chunk] or ["Tidak ada hasil."]
 
 
-async def send_search_result(update: Update, searching_msg, text: str, reply_markup) -> None:
-    """Edit the loading message and send overflow as additional messages."""
+async def send_search_result(
+    update: Update,
+    searching_msg,
+    text: str,
+    search_type: str,
+    search_query: str,
+) -> None:
+    """Show a result as one message with Prev/Next pagination."""
     chunks = split_html_message(text)
-    last_index = len(chunks) - 1
+    user_id = update.effective_user.id
+
+    # Keep pagination server-side so callback_data stays safely below Telegram's
+    # 64-byte limit, even when the original query is long.
+    state = user_states.setdefault(user_id, {})
+    state.update({
+        "result_pages": chunks,
+        "result_search_type": search_type,
+        "result_query": search_query,
+        "result_page": 0,
+    })
 
     await searching_msg.edit_text(
         chunks[0],
         parse_mode="HTML",
-        reply_markup=reply_markup if last_index == 0 else None,
+        reply_markup=get_result_keyboard(search_type, search_query, 0, len(chunks)),
     )
-
-    for index, chunk in enumerate(chunks[1:], 1):
-        await update.message.reply_html(
-            chunk,
-            reply_markup=reply_markup if index == last_index else None,
-        )
 
 
 # ==================== BOT HANDLERS ====================
@@ -911,7 +935,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             update,
             searching_msg,
             results,
-            get_result_keyboard(search_type, query),
+            search_type,
+            query,
         )
     except Exception as e:
         logger.error(f"Search error: {e}")
@@ -1101,6 +1126,34 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     user_id = query.from_user.id
     data = query.data
+
+    if data == "page_info":
+        return
+
+    if data.startswith("result_page_"):
+        state = user_states.get(user_id, {})
+        pages = state.get("result_pages", [])
+        try:
+            page = int(data.removeprefix("result_page_"))
+        except ValueError:
+            page = -1
+
+        if not pages or page < 0 or page >= len(pages):
+            await query.edit_message_text(
+                "⚠️ Hasil pencarian sudah kedaluwarsa. Silakan cari lagi.",
+                reply_markup=get_main_keyboard(),
+            )
+            return
+
+        search_type = state.get("result_search_type", "name")
+        search_query = state.get("result_query", "")
+        state["result_page"] = page
+        await query.edit_message_text(
+            pages[page],
+            parse_mode="HTML",
+            reply_markup=get_result_keyboard(search_type, search_query, page, len(pages)),
+        )
+        return
     
     if data == "main_menu":
         await query.edit_message_text(
