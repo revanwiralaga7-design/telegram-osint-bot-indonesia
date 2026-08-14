@@ -6,6 +6,8 @@ Database: osint_Backup.db (2.2GB)
 """
 
 import os
+import re
+import html
 import sqlite3
 import asyncio
 import logging
@@ -713,6 +715,93 @@ def get_result_keyboard(search_type: str, query: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(buttons)
 
 
+# Telegram limits text messages to 4,096 UTF-16 code units. Keep chunks
+# comfortably below that limit so emoji and formatting never push them over.
+TELEGRAM_SAFE_MESSAGE_LIMIT = 3500
+
+
+def telegram_text_length(text: str) -> int:
+    """Return Telegram's approximate message length (UTF-16 code units)."""
+    return len(text.encode("utf-16-le")) // 2
+
+
+def split_plain_text(text: str, limit: int) -> List[str]:
+    """Split plain text without cutting a Unicode character in half."""
+    parts = []
+    current = []
+    current_length = 0
+
+    for char in text:
+        char_length = 2 if ord(char) > 0xFFFF else 1
+        if current and current_length + char_length > limit:
+            parts.append("".join(current))
+            current = []
+            current_length = 0
+        current.append(char)
+        current_length += char_length
+
+    if current:
+        parts.append("".join(current))
+    return parts
+
+
+def split_html_message(text: str, limit: int = TELEGRAM_SAFE_MESSAGE_LIMIT) -> List[str]:
+    """Split an HTML message at line boundaries into Telegram-safe chunks.
+
+    Formatter output uses complete HTML tags on each line. In the unlikely case
+    that one line alone exceeds the limit, formatting is removed from that line
+    before splitting so Telegram never receives an unclosed HTML tag.
+    """
+    chunks: List[str] = []
+    current_lines: List[str] = []
+    current_length = 0
+
+    for line in text.splitlines(keepends=True):
+        line_length = telegram_text_length(line)
+
+        if line_length > limit:
+            if current_lines:
+                chunks.append("".join(current_lines).rstrip("\n"))
+                current_lines = []
+                current_length = 0
+
+            plain_line = re.sub(r"<[^>]*>", "", line).rstrip("\n")
+            escaped_line = html.escape(plain_line)
+            chunks.extend(split_plain_text(escaped_line, limit))
+            continue
+
+        if current_lines and current_length + line_length > limit:
+            chunks.append("".join(current_lines).rstrip("\n"))
+            current_lines = []
+            current_length = 0
+
+        current_lines.append(line)
+        current_length += line_length
+
+    if current_lines:
+        chunks.append("".join(current_lines).rstrip("\n"))
+
+    return [chunk for chunk in chunks if chunk] or ["Tidak ada hasil."]
+
+
+async def send_search_result(update: Update, searching_msg, text: str, reply_markup) -> None:
+    """Edit the loading message and send overflow as additional messages."""
+    chunks = split_html_message(text)
+    last_index = len(chunks) - 1
+
+    await searching_msg.edit_text(
+        chunks[0],
+        parse_mode="HTML",
+        reply_markup=reply_markup if last_index == 0 else None,
+    )
+
+    for index, chunk in enumerate(chunks[1:], 1):
+        await update.message.reply_html(
+            chunk,
+            reply_markup=reply_markup if index == last_index else None,
+        )
+
+
 # ==================== BOT HANDLERS ====================
 db = OSINTDatabase(DB_PATH)
 user_states = {}  # user_id -> last query info
@@ -818,7 +907,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             results = "❌ Tipe pencarian tidak dikenali."
         
-        await searching_msg.edit_text(results, parse_mode="HTML", reply_markup=get_result_keyboard(search_type, query))
+        await send_search_result(
+            update,
+            searching_msg,
+            results,
+            get_result_keyboard(search_type, query),
+        )
     except Exception as e:
         logger.error(f"Search error: {e}")
         await searching_msg.edit_text(f"❌ Error: {str(e)}", reply_markup=get_main_keyboard())
